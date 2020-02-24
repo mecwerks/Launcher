@@ -107,7 +107,7 @@ public class Updater extends BaseUpdater implements Callable<Instance>, Progress
             mapper.writeValue(instance.getVersionPath(), version);
             return version;
         } else {
-            URL url = launcher.getMetaURL(manifest.getGameVersion());
+            URL url = launcher.getMetaURL(manifest.getGameVersion(), launcher.getProperties().getProperty("versionManifestUrl"));
             return HttpRequest
                     .get(url)
                     .execute()
@@ -148,7 +148,7 @@ public class Updater extends BaseUpdater implements Callable<Instance>, Progress
 
         // Install the .jar
         File jarPath = launcher.getJarPath(version);
-        String downloadURLString = Launcher.getDownloadURL(version.getId());
+        String downloadURLString = Launcher.getDownloadURL(version.getId(), launcher.getProperties().getProperty("versionManifestUrl"));
         URL downloadURL = new URL(downloadURLString);
         log.info("JAR at " + jarPath.getAbsolutePath() + ", fetched from " + downloadURL);
         installJar(installer, jarPath, downloadURL);

@@ -56,7 +56,7 @@ public class PackageBuilder {
 
     private static final Pattern TWEAK_CLASS_ARG = Pattern.compile("--tweakClass\\s+([^\\s]+)");
 
-    private final Properties properties;
+    @Getter private final Properties properties;
     private final ObjectMapper mapper;
     private ObjectWriter writer;
     private final Manifest manifest;
@@ -73,8 +73,7 @@ public class PackageBuilder {
      * @param manifest the manifest
      */
     public PackageBuilder(@NonNull ObjectMapper mapper, @NonNull Manifest manifest) throws IOException {
-        this.properties = LauncherUtils.loadProperties(Launcher.class,
-                "launcher.properties", "com.skcraft.launcher.propertiesFile");
+        this.properties = LauncherUtils.loadProperties(Launcher.class, "launcher.properties", "com.skcraft.launcher.propertiesFile");
 
         this.mapper = mapper;
         this.manifest = manifest;
@@ -299,7 +298,7 @@ public class PackageBuilder {
 
             log.info("Loaded version manifest from " + path.getAbsolutePath());
         } else {
-            URL url = Launcher.getMetaURL(manifest.getGameVersion());
+            URL url = Launcher.getMetaURL(manifest.getGameVersion(), getProperties().getProperty("versionManifestUrl"));
 
             log.info("Fetching version manifest from " + url + "...");
 

@@ -369,8 +369,8 @@ public final class Launcher {
         return HttpRequest.url(prop(key, args));
     }
 
-    public static URL getMetaURL(String version) throws IOException, InterruptedException {
-        URL url = new URL("https://launchermeta.mojang.com/mc/game/version_manifest.json");
+    public static URL getMetaURL(String version, String manifestUrl) throws IOException, InterruptedException {
+        URL url = new URL(manifestUrl);
         LauncherJSON launcherJSON = HttpRequest
                 .get(url)
                 .execute()
@@ -385,8 +385,8 @@ public final class Launcher {
         return null;
     }
 
-    public static String getDownloadURL(String version) throws IOException, InterruptedException {
-        URL url = getMetaURL(version);
+    public static String getDownloadURL(String version, String manifestUrl) throws IOException, InterruptedException {
+        URL url = getMetaURL(version, manifestUrl);
         if(url == null) {
             return "";
         }
